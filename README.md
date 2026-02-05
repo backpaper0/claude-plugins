@@ -4,14 +4,20 @@
 
 マーケットプレイスを追加してプラグインをインストールすると使えるようになります。
 
-## マーケットプレイスを追加する
-
 ```bash
+# マーケットプレイスを追加する
 claude plugin marketplace add backpaper0/claude-plugins
+
+# プラグインをインストールする
+claude plugin install git-operations@urgm-plugins
 ```
 
-## プラグインをインストールする
+不要になったらプラグインをアンインストールしてマーケットプレイスを削除してください。
 
 ```bash
-claude plugin install git-operations@urgm-plugins
+# プラグインをアンインストールする
+claude plugin uninstall git-operations@urgm-plugins
+
+# マーケットプレイスを削除する
+claude plugin marketplace remove urgm-plugins
 ```

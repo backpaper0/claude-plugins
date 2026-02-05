@@ -1,0 +1,12 @@
+{
+    "name": "urgm-plugins",
+    "owner": {
+        "name": "Uragami Taichi"
+    },
+    "plugins": [
+        {
+            "name": "git-operations",
+            "source": "./plugins/git-operations"
+        }
+    ]
+}

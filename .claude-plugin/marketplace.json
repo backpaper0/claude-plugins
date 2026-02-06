@@ -7,6 +7,10 @@
         {
             "name": "git-operations",
             "source": "./plugins/git-operations"
+        },
+        {
+            "name": "transcript-utils",
+            "source": "./plugins/transcript-utils"
         }
     ]
 }

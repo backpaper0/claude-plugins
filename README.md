@@ -10,6 +10,7 @@ claude plugin marketplace add backpaper0/claude-plugins
 
 # プラグインをインストールする
 claude plugin install git-operations@urgm-plugins
+claude plugin install transcript-utils@urgm-plugins
 ```
 
 不要になったらプラグインをアンインストールしてマーケットプレイスを削除してください。
@@ -17,6 +18,7 @@ claude plugin install git-operations@urgm-plugins
 ```bash
 # プラグインをアンインストールする
 claude plugin uninstall git-operations@urgm-plugins
+claude plugin uninstall transcript-utils@urgm-plugins
 
 # マーケットプレイスを削除する
 claude plugin marketplace remove urgm-plugins

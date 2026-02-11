@@ -9,6 +9,10 @@
             "source": "./plugins/git-operations"
         },
         {
+            "name": "gitlab-workflow",
+            "source": "./plugins/gitlab-workflow"
+        },
+        {
             "name": "transcript-utils",
             "source": "./plugins/transcript-utils"
         }

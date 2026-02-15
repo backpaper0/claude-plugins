@@ -9,6 +9,10 @@
             "source": "./plugins/git-operations"
         },
         {
+            "name": "gitea-workflow",
+            "source": "./plugins/gitea-workflow"
+        },
+        {
             "name": "gitlab-workflow",
             "source": "./plugins/gitlab-workflow"
         },

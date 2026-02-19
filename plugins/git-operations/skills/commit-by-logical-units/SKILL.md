@@ -1,5 +1,9 @@
 ---
+name: commit-by-logical-units
+description: 変更内容を確認して論理的に意味がある単位でコミットする。
+disable-model-invocation: true
 allowed-tools: Bash(git:*)
+context: fork
 ---
 
 現在の変更内容を確認し、論理的に意味がある単位で複数のコミットに分けて実行してください。

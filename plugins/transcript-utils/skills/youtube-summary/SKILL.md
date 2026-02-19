@@ -9,6 +9,8 @@ args:
     description: 字幕の言語コード（例：ja, en）。デフォルトはja
     required: false
 allowed-tools: Read, Bash, Write
+disable-model-invocation: true
+context: fork
 ---
 
 # YouTube動画要約

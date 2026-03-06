@@ -12,6 +12,7 @@ claude plugin marketplace add backpaper0/claude-plugins
 claude plugin install git-operations@urgm-plugins
 claude plugin install transcript-utils@urgm-plugins
 claude plugin install gitlab-workflow@urgm-plugins
+claude plugin install cc-dev@urgm-plugins
 ```
 
 不要になったらプラグインをアンインストールしてマーケットプレイスを削除してください。
@@ -21,6 +22,7 @@ claude plugin install gitlab-workflow@urgm-plugins
 claude plugin uninstall git-operations@urgm-plugins
 claude plugin uninstall transcript-utils@urgm-plugins
 claude plugin uninstall gitlab-workflow@urgm-plugins
+claude plugin uninstall cc-dev@urgm-plugins
 
 # マーケットプレイスを削除する
 claude plugin marketplace remove urgm-plugins

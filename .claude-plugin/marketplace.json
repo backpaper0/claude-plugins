@@ -5,6 +5,10 @@
     },
     "plugins": [
         {
+            "name": "cc-dev",
+            "source": "./plugins/cc-dev"
+        },
+        {
             "name": "git-operations",
             "source": "./plugins/git-operations"
         },

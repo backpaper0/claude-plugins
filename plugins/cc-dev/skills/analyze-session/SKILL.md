@@ -11,7 +11,7 @@ disable-model-invocation: true
 次のコマンドを実行して、セッションログを解析する。
 
 ```
-uvx uvx git+https://github.com/backpaper0/session-analyzer.git@v0.2.0 ${CLAUDE_SESSION_ID}
+uvx git+https://github.com/backpaper0/session-analyzer.git@v0.2.0 ${CLAUDE_SESSION_ID}
 ```
 
 解析結果(HTMLファイル)のパスが標準出力へ書き出されるので、次のコマンドを使用して開く。

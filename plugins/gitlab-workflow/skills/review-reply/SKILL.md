@@ -1,4 +1,7 @@
 ---
+name: review-reply
+description: review-fixで対応したコミットをpushし、各レビューコメントのスレッドに対応内容を返信する。
+disable-model-invocation: true
 allowed-tools: Bash(git:*), Bash(glab:*), Read, Grep, Glob
 ---
 

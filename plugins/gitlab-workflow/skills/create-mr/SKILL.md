@@ -1,4 +1,7 @@
 ---
+name: create-mr
+description: 現在のブランチの変更内容を分析し、GitLabにMerge Requestを作成する。
+disable-model-invocation: true
 allowed-tools: Bash(git:*), Bash(glab:*), Read, Grep, Glob
 ---
 

@@ -1,4 +1,7 @@
 ---
+name: review-fix
+description: 現在のブランチに紐づくMerge Requestのレビューコメントを取得し、ひとつずつコードを修正する。
+disable-model-invocation: true
 allowed-tools: Bash(git:*), Bash(glab:*), Read, Grep, Glob
 ---
 

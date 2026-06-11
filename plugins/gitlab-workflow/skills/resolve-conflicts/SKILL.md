@@ -1,4 +1,7 @@
 ---
+name: resolve-conflicts
+description: 現在のブランチに紐づくMerge Requestでターゲットブランチとのコンフリクトを検出し、対話的に解消する。
+disable-model-invocation: true
 allowed-tools: Bash(git:*), Bash(glab:*), Read, Grep, Glob
 ---
 

@@ -1,4 +1,7 @@
 ---
+name: sync-main
+description: Merge Requestがマージされた後、mainブランチに切り替えて最新化し、マージ済みのフィーチャーブランチを削除する。
+disable-model-invocation: true
 allowed-tools: Bash(git:*)
 ---
 

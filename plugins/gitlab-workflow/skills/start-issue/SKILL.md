@@ -1,4 +1,8 @@
 ---
+name: start-issue
+description: GitLab issueの内容を読み取り、フィーチャーブランチを作成して実装を開始する。Issue番号(IID)を指定して使用する。
+argument-hint: <issue番号>
+disable-model-invocation: true
 allowed-tools: Bash(git:*), Bash(glab:*), Read, Grep, Glob
 ---
 

@@ -51,6 +51,7 @@ plugins/<plugin-name>/
 
 | プラグイン | 種類 | 概要 |
 |---|---|---|
+| cc-utils | skills | 汎用的なタスクを支援するエージェントスキル集（xlsx-to-markdownなど） |
 | git-operations | commands | 変更を論理単位で複数コミットに分割 |
 | gitlab-workflow | skills | GitLab MRの作成・レビュー対応・返信 |
 | transcript-utils | skills | YouTube動画のトランスクリプト取得・要約 |

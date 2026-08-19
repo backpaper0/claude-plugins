@@ -9,6 +9,10 @@
             "source": "./plugins/cc-dev"
         },
         {
+            "name": "cc-utils",
+            "source": "./plugins/cc-utils"
+        },
+        {
             "name": "git-operations",
             "source": "./plugins/git-operations"
         },

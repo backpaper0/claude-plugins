@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.12"
+# dependencies = []
+# ///
+
 """xlsxファイルの内容をMarkdown化する際の下調べに使う補助ツール。
 
 事前に `unzip <file>.xlsx -d <dir>` などでxlsxを展開しておき、
@@ -15,10 +20,10 @@
 いずれもテキスト抽出時、ふりがな（拼音/読み仮名用の <rPh> 要素）を除外して
 本来の文字列だけを取り出す。
 """
+
 import argparse
 import os
 import re
-import sys
 import xml.etree.ElementTree as ET
 
 NS = {
@@ -40,6 +45,7 @@ def col_to_idx(col):
 
 def parse_ref(ref):
     m = re.match(r"([A-Z]+)(\d+)", ref)
+    assert m is not None
     return col_to_idx(m.group(1)), int(m.group(2))
 
 
@@ -59,7 +65,9 @@ def load_sheets(xlsx_dir):
     tree = ET.parse(os.path.join(xlsx_dir, "xl", "workbook.xml"))
     rels = load_rels(os.path.join(xlsx_dir, "xl", "_rels", "workbook.xml.rels"))
     sheets = []
-    for sheet_el in tree.getroot().find("x:sheets", NS):
+    sheets_el = tree.getroot().find("x:sheets", NS)
+    assert sheets_el is not None
+    for sheet_el in sheets_el:
         rid = sheet_el.get(R_ID)
         target = rels.get(rid, "")
         sheet_path = os.path.normpath(os.path.join(xlsx_dir, "xl", target))
@@ -94,7 +102,7 @@ def find_sheet(xlsx_dir, name_or_index):
 def sheet_drawing_path(sheet):
     """シートに紐づく描画パート(drawingN.xml)のパスを返す。無ければNone。"""
     rels = load_rels(sheet["rels_path"])
-    for rid, target in rels.items():
+    for target in rels.values():
         if "drawing" in target and target.endswith(".xml"):
             return os.path.normpath(
                 os.path.join(os.path.dirname(sheet["path"]), target)
@@ -147,7 +155,7 @@ def load_grid(xlsx_dir, sheet):
                 val = _extract_text(is_el)
             elif v_el is not None:
                 if t == "s":
-                    idx = int(v_el.text)
+                    idx = int(v_el.text or 0)
                     val = shared[idx] if idx < len(shared) else ""
                 else:
                     val = v_el.text or ""
@@ -159,6 +167,7 @@ def load_grid(xlsx_dir, sheet):
     if mc is not None:
         for m in mc.findall("x:mergeCell", NS):
             ref = m.get("ref")
+            assert ref is not None
             start, end = ref.split(":") if ":" in ref else (ref, ref)
             c1, r1 = parse_ref(start)
             c2, r2 = parse_ref(end)
@@ -169,14 +178,20 @@ def load_grid(xlsx_dir, sheet):
 def cmd_sheets(args):
     for s in load_sheets(args.xlsx_dir):
         drawing = sheet_drawing_path(s)
-        drawing_note = f" drawing={os.path.relpath(drawing, args.xlsx_dir)}" if drawing else ""
-        print(f"{s['name']}\tstate={s['state']}\t{os.path.relpath(s['path'], args.xlsx_dir)}{drawing_note}")
+        drawing_note = (
+            f" drawing={os.path.relpath(drawing, args.xlsx_dir)}" if drawing else ""
+        )
+        print(
+            f"{s['name']}\tstate={s['state']}\t{os.path.relpath(s['path'], args.xlsx_dir)}{drawing_note}"
+        )
 
 
 def cmd_grid(args):
     sheet = find_sheet(args.xlsx_dir, args.sheet)
     grid, max_row, max_col, merges = load_grid(args.xlsx_dir, sheet)
-    print(f"# sheet={sheet['name']} max_row={max_row} max_col={max_col} merges={len(merges)}")
+    print(
+        f"# sheet={sheet['name']} max_row={max_row} max_col={max_col} merges={len(merges)}"
+    )
     for r in range(1, max_row + 1):
         row_vals = [grid.get((r, c), "") for c in range(1, max_col + 1)]
         if args.all or any(row_vals):
@@ -185,7 +200,7 @@ def cmd_grid(args):
 
 def cmd_cells(args):
     sheet = find_sheet(args.xlsx_dir, args.sheet)
-    grid, max_row, max_col, merges = load_grid(args.xlsx_dir, sheet)
+    grid, _max_row, max_col, merges = load_grid(args.xlsx_dir, sheet)
     r1, r2 = args.row_start, args.row_end
     print("MERGES in range:")
     for mr1, mc1, mr2, mc2 in merges:
@@ -218,11 +233,15 @@ def cmd_shapes(args):
         if tag not in ("twoCellAnchor", "oneCellAnchor"):
             continue
         frm = anchor.find("xdr:from", NS)
-        frow = int(frm.find("xdr:row", NS).text) if frm is not None else -1
-        fcol = int(frm.find("xdr:col", NS).text) if frm is not None else -1
+        row_el = frm.find("xdr:row", NS) if frm is not None else None
+        col_el = frm.find("xdr:col", NS) if frm is not None else None
+        frow = int(row_el.text) if row_el is not None and row_el.text else -1
+        fcol = int(col_el.text) if col_el is not None and col_el.text else -1
         name_el = anchor.find(".//xdr:cNvPr", NS)
         name = name_el.get("name") if name_el is not None else "?"
-        texts = [t.text for t in anchor.findall(".//a:t", NS) if t.text and t.text.strip()]
+        texts = [
+            t.text for t in anchor.findall(".//a:t", NS) if t.text and t.text.strip()
+        ]
 
         pic = anchor.find(".//xdr:pic", NS)
         pic_note = ""
@@ -235,15 +254,21 @@ def cmd_shapes(args):
                     media_path = os.path.normpath(
                         os.path.join(os.path.dirname(drawing_path), target)
                     )
-                    pic_note = f" [PICTURE -> {os.path.relpath(media_path, args.xlsx_dir)}]"
+                    pic_note = (
+                        f" [PICTURE -> {os.path.relpath(media_path, args.xlsx_dir)}]"
+                    )
 
         if texts or pic_note:
             print(f"row={frow:5d} col={fcol:3d} name={name}{pic_note} text={texts}")
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("xlsx_dir", help="unzip済みのxlsx展開先ディレクトリ（xl/を含む）")
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    parser.add_argument(
+        "xlsx_dir", help="unzip済みのxlsx展開先ディレクトリ（xl/を含む）"
+    )
     sub = parser.add_subparsers(dest="command", required=True)
 
     sub.add_parser("sheets", help="シート一覧を表示")
